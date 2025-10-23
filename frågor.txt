@@ -1,0 +1,75 @@
+Vad är pull repektive push?
+1.
+git pull hämtar och uppdaterar det man redan har från github. 
+git push laddar upp det man har commitat i sitt lokala repository till repositoryt på github.
+
+
+När använder man log respektive status?
+2.
+man använder log när man vill se sina tidigare commits samt deras hashcode.
+git status använder man när man vill se om det finns något i sin staged area.
+man kan också skriva git log --oneline för att få sina hashkoder från commits utskriva som man kan
+använda sig av i vissa av dessa kommandon
+
+Vad är en Git branch och varför är de viktiga?
+3.
+En gitbranch är som en kopia av sin repository så att man kan testa att ändra sina filer i en säker enviroment
+och sedan kan man merga för att uppdatera och hämta filer som man skapat i branchen 
+tex om man gör en make-scripts och skapar scripts där kan man testa de innan man mergar dem med sin main 
+på så sätt behöver man inte oroa sig för att förlora viktiga saker i sin main branch eller annan branch.
+
+
+Det finns flera sätt att rulla tillbaka koden till ett tidigare tillstånd.
+Förklara skillnaden och motivera när man skulle använda den ena eller andra metoden. 
+Ge exempel på de kommandon du använder för att göra detta och vissa att det fungerar,
+vilken output du fick från git-kommandona.
+4.
+
+git reset, 
+t.ex git reset --soft <hashkod> 
+kan användas för att Det tar bort commits men behåller alla ändringar redo för en ny commit.
+
+git reset --soft scenario: Jag har en fil denna gången heter den kobideh.java jag gör en git add på denna för jag kännner
+mig färdig med den och sedan ska jag committa den... jag skriver git commit -am "jag la till en kobiahsf" jag är inte nöjd med 
+detta och skriver git reset --soft <hashkod> och tar tillbaka commit meddelandet och får tillbaka min kobideh.java
+jag skriver sedan git commit -m "jag la till min kobideh" och nu är alla glada och det är fred på jorden.
+ 
+git reset --mixed kan användas för att ta bort commits från historiken och att ta bort dem från stagin arean
+men låter dig ha kvar dina filändringar så att du kan göra om din commit.
+
+git reset --mixed scenario: Jag har 3 filer och dem heter kaffe1.txt kaffe2.txt och kaffe3.txt och jag råkar
+till min förtvivlan skriva git add kaffe1.txt istället för git add kaffe2.txt så jag skriver git reset --mixed HEAD kaffe1.txt 
+för att ta tillbaka kaffe1.txt från stage-arean och nu har jag fritt fram att skriva git add kaffe2.txt utan problem
+och nu är jag glad.
+
+
+git reset --hard 
+kan användas för att ta bort alla dina commits samt dina lokala ändringar helt och hållet som att de inte har hänt
+bör endast användas denna för allvarliga situationer.
+
+git reset --hard scenario: jag har under hela dagen jobbat på en branch och jag har gjort en massa commits...
+jag inser nu att jag gjorde ett commit med hashkoden 1234567 och då var allt som det skulle. det var i början av dagen...
+nu har jag gjort yttligare 10 commits och jag har en massa (tro mig) men jag har nu inset att allt jag gjort blivit fel sedan 
+committen jag pratade om ovanför, jag kan därför skriva git reset --hard 1234567 och då går allt tillbaka till hur det var då
+när allt var bra, lite nostalgiskt. Nu är det solsken och regnbågar överallt, och jag är lycklig.
+
+git revert funkar lite annorlunda än git reset
+istället för att ta bort ett commit så gör den en ny commit som återställer ändringarna.
+
+git revert scenario: jag har en java fil som jag med mening skriver ett fel i, jag skriver git commit -am "making a silly mistake"
+jag försöker sedan kompilera och köra den och ser till mig förskräckelse att den inte funkar och jag beslutar för mig
+att skriva "git revert HEAD" detta skapar en ny commit som återställer den tidigare ändringen. 
+
+
+git restore funkar lite som det låter, den kan återställa en fil till det tillstånd den hade i den senaste commiten.
+men det kan vara farligt då alla osparade lokala ändringar i filen försvinner permanent.
+man kan tex skriva git restore --staged för att ångra en add, och att ta bort den från stage-arean.
+
+git restore scenario: jag har en fil som heter potatis.java i detta fallet. jag har commitat den tidigare och helt plötsligt
+så blir jag förbannad och gör rm -rf potatis.java och 5 minuter senare så får jag tillbaka en sinnesklarhet.
+jag undrar sedan varför jag gjorde såhär, jag bestämmer mig därför för att använda mig utav git restore potatis.java
+detta återställer min potatis.java till det stadiet som den var i när jag committade den tidigare. 
+
+git restore scenario 2: jag har råkat göra git add potatis.java innan jag gjort klart det jag ville göra med den...
+jag gör därför git restore --staged potatis.java för att ta bort den från stage-arean och får tillbaka den så jag kan fixa felet
+och sedan gå tillbaka till att kunna göra git commit -m "min lilla potatis är färdig" 
